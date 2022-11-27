@@ -3,7 +3,6 @@
 namespace App\Libs\CityApi\Validators;
 
 use Illuminate\Support\Collection;
-use Illuminate\Support\MessageBag;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Validator as Validation;
 use App\Libs\CityApi\Contracts\ValidateCityContract;

@@ -5,7 +5,6 @@ namespace App\Libs\CityApi\Helpers;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use App\Libs\CityApi\Contracts\HttpSetupContract;
-use App\Libs\CityApi\Managers\CityRequestManager;
 use App\Libs\CityApi\Contracts\CityProviderContract;
 use Str;
 

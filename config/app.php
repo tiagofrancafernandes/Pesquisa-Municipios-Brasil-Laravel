@@ -210,6 +210,10 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
+        'CityRequestManager' => \App\Libs\CityApi\Managers\CityRequestManager::class,
+        'CityProviderContract' => \App\Libs\CityApi\Contracts\CityProviderContract::class,
+        'HttpSetupContract' => \App\Libs\CityApi\Contracts\HttpSetupContract::class,
+        'ProviderDynamicSettings' => \App\Libs\CityApi\Helpers\ProviderDynamicSettings::class,
     ])->toArray(),
 
 ];

@@ -3,7 +3,6 @@
 namespace App\Libs\CityApi\Managers;
 
 use App\Libs\CityApi\Contracts\CityProviderContract;
-use Exception;
 
 class CityRequestManager
 {
