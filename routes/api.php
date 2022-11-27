@@ -17,7 +17,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', fn (Request $request) => $request->user());
 
-Route::prefix('cities')->name('cities.')->group(function () {
+Route::prefix('city')->name('city.')->group(function () {
     Route::get('search', [CityController::class, 'search'])->name('search');
+    Route::get('list/{uf}/{provider?}', [CityController::class, 'citiesByUfAndProvider'])->name('list');
     Route::get('by-ibge-id', [CityController::class, 'cityByIbgeId'])->name('cityByIbgeId');
 });

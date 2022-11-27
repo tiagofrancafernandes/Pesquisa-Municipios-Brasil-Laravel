@@ -33,7 +33,7 @@ class IbgeGovBrCity implements CityProviderContract
 
         $responseData = static::cacheHttp()->cache('get', __METHOD__, ["localidades/estados/{$uf}/municipios"]);
 
-        return new CityListManager(($responseData ?: []), static::$bindKeys);
+        return new CityListManager(($responseData ?: []), static::$bindKeys, 'ibge-gov-br');
     }
 
     public static function cacheHttp(): CacheHttpResponse

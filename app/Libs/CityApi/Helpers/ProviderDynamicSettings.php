@@ -17,10 +17,10 @@ class ProviderDynamicSettings
         $this->initTime = date('Y-m-d H:i:s');
     }
 
-    public static function getProviderClass(): ?string
+    public static function getProviderClass(string $providerName = \null): ?string
     {
         $providers = config('cities-api.providers');
-        $providerName = config('cities-api.provider');
+        $providerName ??= config('cities-api.provider');
 
         if (!\in_array($providerName, \array_keys($providers), \true)) {
             throw new Exception("Error: Invalid provider '{$providerName}'.", 1005);

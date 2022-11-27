@@ -20,7 +20,7 @@ class CitySearchTest extends TestCase
         $ibgeId = 2407708;
         $expectedProviderName = config('cities-api.provider');
 
-        $response = $this->json('GET', '/api/cities/search', [
+        $response = $this->json('GET', route('city.search'), [
             'city' => $cityName,
             'uf' => 'rn',
         ]);
@@ -62,7 +62,7 @@ class CitySearchTest extends TestCase
         $ibgeId = 2407708;
         $expectedProviderName = config('cities-api.provider');
 
-        $response = $this->json('GET', '/api/cities/search', [
+        $response = $this->json('GET', route('city.search'), [
             'city' => $cityName,
             'uf' => 'rn',
         ]);
@@ -104,7 +104,7 @@ class CitySearchTest extends TestCase
         $ibgeId = 2407708;
         $expectedProviderName = config('cities-api.provider');
 
-        $response = $this->json('GET', '/api/cities/search', [
+        $response = $this->json('GET', route('city.search'), [
             'ibge_id' => $ibgeId,
             'uf' => 'rn',
         ]);
@@ -146,7 +146,7 @@ class CitySearchTest extends TestCase
         $ibgeId = 2407708;
         $expectedProviderName = config('cities-api.provider');
 
-        $response = $this->json('GET', '/api/cities/by-ibge-id', [
+        $response = $this->json('GET', route('city.cityByIbgeId'), [
             'ibge_id' => $ibgeId,
             'uf' => 'rn',
         ]);
@@ -184,7 +184,7 @@ class CitySearchTest extends TestCase
      */
     public function checkIfGetErrorIfMissingParameters()
     {
-        $response = $this->json('GET', '/api/cities/search', [
+        $response = $this->json('GET', route('city.search'), [
             'uf' => 'rn',
         ]);
 

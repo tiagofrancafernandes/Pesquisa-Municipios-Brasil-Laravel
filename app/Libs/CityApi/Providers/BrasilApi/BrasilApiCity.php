@@ -33,7 +33,7 @@ class BrasilApiCity implements CityProviderContract
 
         $responseData = static::cacheHttp()->cache('get', __METHOD__, [$uf]);
 
-        return new CityListManager(($responseData ?: []), static::$bindKeys);
+        return new CityListManager(($responseData ?: []), static::$bindKeys, 'brasil-api');
     }
 
     public static function cacheHttp(): CacheHttpResponse

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Libs\CityApi\Contracts\CityProviderContract;
+use App\Libs\CityApi\Helpers\ProviderDynamicSettings;
 use App\Libs\CityApi\Managers\CityRequestManager;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -70,5 +71,51 @@ class CityController extends Controller
         $data = $this->providerInstance->searchCity($city, $uf)->all();
 
         return response()->json($data, 200);
+    }
+
+    /**
+     * function citiesByUfAndProvider
+     *
+     * @param Request $request
+     * @param $uf
+     * @return
+     */
+    public function citiesByUfAndProvider(Request $request, string $uf = \null, string $provider = \null)
+    {
+        $request['uf'] = $uf ?? $request->input('uf');
+        $request['provider'] = $provider ?? $request->input('provider');
+
+        $validator = Validator::make($request->all(), [
+            'uf' => 'required|string|min:2|max:2',
+            'provider' => 'nullable|string|min:2',
+        ]);
+
+        $provider = $request->input('provider');
+
+        if ($validator->errors()->count()) {
+            return response()->json($validator->errors(), 400);
+        }
+
+        $providers = (array) config('cities-api.providers', []);
+
+        if (
+            $provider && !\in_array($provider, \array_keys($providers))
+        ) {
+            return response()->json([
+                'error' => 'Invalid provider',
+                'available_providers' => \array_keys($providers),
+            ], 404);
+        }
+
+        $providerClass = ProviderDynamicSettings::getProviderClass($provider);
+
+        $providerInstance = $provider ? new $providerClass() : $this->providerInstance;
+
+        return response()->json(
+            $providerInstance->getCityListByUf(
+                $request->input('uf')
+            )->cities(),
+            200
+        );
     }
 }

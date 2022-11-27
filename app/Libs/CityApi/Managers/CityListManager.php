@@ -11,8 +11,11 @@ class CityListManager implements CityListContract
 {
     protected ?Collection $cityList = \null;
 
-    public function __construct(array $cityList, array $bindKeys = [])
-    {
+    public function __construct(
+        array $cityList,
+        array $bindKeys = [],
+        ?string $provider = \null
+    ) {
         if (!$cityList) {
             return;
         }
@@ -33,7 +36,7 @@ class CityListManager implements CityListContract
             $this->cityList->push([
                 'name' => CityFormat::standadizeTheNames($name),
                 'ibge_id' => (int) $ibgeId,
-                'provider' => config('cities-api.provider'),
+                'provider' => $city['provider'] ?? $provider ?? config('cities-api.provider'),
             ]);
         }
 
