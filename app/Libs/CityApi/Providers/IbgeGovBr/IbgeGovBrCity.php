@@ -66,7 +66,12 @@ class IbgeGovBrCity implements CityProviderContract
     public static function first(string $cityName, string $uf): null|ValidCity
     {
         try {
-            return ValidCity::make(static::searchCity($cityName, $uf)->first());
+            return ValidCity::make(
+                [
+                    ...static::searchCity($cityName, $uf)->first(),
+                    'provider' => 'ibge-gov-br'
+                ]
+            );
         } catch (\Throwable $th) {
             if (static::debug()) {
                 throw $th;

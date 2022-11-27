@@ -19,6 +19,7 @@ Route::middleware('auth:sanctum')->get('/user', fn (Request $request) => $reques
 
 Route::prefix('city')->name('city.')->group(function () {
     Route::get('search', [CityController::class, 'search'])->name('search');
-    Route::get('list/{uf}/{provider?}', [CityController::class, 'citiesByUfAndProvider'])->name('list');
     Route::get('by-ibge-id', [CityController::class, 'cityByIbgeId'])->name('cityByIbgeId');
+    Route::get('list/{uf}/{provider?}', [CityController::class, 'citiesByUfAndProvider'])->name('list');
+    Route::get('show/{uf?}/{cityName?}/{provider?}', [CityController::class, 'cityByUfAndName'])->name('show');
 });

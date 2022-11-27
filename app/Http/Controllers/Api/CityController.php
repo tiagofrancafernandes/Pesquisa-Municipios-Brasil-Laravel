@@ -118,4 +118,57 @@ class CityController extends Controller
             200
         );
     }
+
+    /**
+     * function cityByUfAndName
+     *
+     * @param Request $request
+     * @param $uf
+     * @return
+     */
+    public function cityByUfAndName(
+        Request $request,
+        string $uf = \null,
+        string $cityName = \null,
+        string $provider = \null
+    ) {
+        $request['uf'] = $uf ?? $request->input('uf');
+        $request['city'] = $cityName ?? $request->input('city');
+        $request['provider'] = $provider ?? $request->input('provider');
+
+        $validator = Validator::make($request->all(), [
+            'uf' => 'required|string|min:2|max:2',
+            'city' => 'required|string|min:2',
+            'provider' => 'nullable|string|min:2',
+        ]);
+
+        $provider = $request->input('provider');
+
+        if ($validator->errors()->count()) {
+            return response()->json($validator->errors(), 400);
+        }
+
+        $providers = (array) config('cities-api.providers', []);
+
+        if (
+            $provider && !\in_array($provider, \array_keys($providers))
+        ) {
+            return response()->json([
+                'error' => 'Invalid provider',
+                'available_providers' => \array_keys($providers),
+            ], 404);
+        }
+
+        $providerClass = ProviderDynamicSettings::getProviderClass($provider);
+
+        $providerInstance = $provider ? new $providerClass() : $this->providerInstance;
+
+        return response()->json(
+            $providerInstance->first(
+                $request->input('city'),
+                $request->input('uf')
+            )->city(),
+            200
+        );
+    }
 }

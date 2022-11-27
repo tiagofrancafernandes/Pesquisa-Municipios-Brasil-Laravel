@@ -66,7 +66,12 @@ class BrasilApiCity implements CityProviderContract
     public static function first(string $cityName, string $uf): null|ValidCity
     {
         try {
-            return ValidCity::make(static::searchCity($cityName, $uf)->first());
+            return ValidCity::make(
+                [
+                    ...static::searchCity($cityName, $uf)->first(),
+                    'provider' => 'brasil-api'
+                ]
+            );
         } catch (\Throwable $th) {
             if (static::debug()) {
                 throw $th;
