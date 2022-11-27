@@ -55,6 +55,7 @@ class ValidCity implements ValidateCityContract
         }
 
         $this->validatedData = $this->validator->validated();
+        $this->validatedData['provider'] = config('cities-api.provider');
         $this->dataIsValid = \true;
     }
 

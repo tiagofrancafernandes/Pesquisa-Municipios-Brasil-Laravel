@@ -33,6 +33,7 @@ class CityListManager implements CityListContract
             $this->cityList->push([
                 'name' => CityFormat::standadizeTheNames($name),
                 'ibge_id' => (int) $ibgeId,
+                'provider' => config('cities-api.provider'),
             ]);
         }
 
