@@ -3,18 +3,20 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Libs\CityApi\Contracts\CityProviderContract;
 use App\Libs\CityApi\Managers\CityRequestManager;
-use App\Libs\CityApi\Providers\BrasilApi\BrasilApiCity;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class CityController extends Controller
 {
     protected CityRequestManager $cityRequestManager;
+    protected CityProviderContract $providerInstance;
 
     public function __construct()
     {
         $this->cityRequestManager = app(CityRequestManager::class);
+        $this->providerInstance = app(CityRequestManager::class)->getProvider();
     }
 
     /**
@@ -39,7 +41,7 @@ class CityController extends Controller
         $uf = $request->input('uf');
         $city = (string) ($request->input('city') ?? $request->input('ibge_id'));
 
-        $data = BrasilApiCity::searchCity($city, $uf)->all();
+        $data = $this->providerInstance->searchCity($city, $uf)->all();
 
         return response()->json($data, 200);
     }
@@ -65,7 +67,7 @@ class CityController extends Controller
         $uf = $request->input('uf');
         $city = $request->input('ibge_id');
 
-        $data = BrasilApiCity::searchCity($city, $uf)->all();
+        $data = $this->providerInstance->searchCity($city, $uf)->all();
 
         return response()->json($data, 200);
     }
